@@ -51,11 +51,8 @@ def create_app():
 
     @app.route('/')
     def home():
-        return jsonify({
-            "message": "Welcome to the Tour Company Backend",
-            "status": "healthy",
-            "version": "1.0.0"
-        })
+        return "Hello, Flask is running!"
+        
 
     @app.route('/api/bookings', methods=['POST'])
     def book_tour():
