@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from config import Config  
+from config import Config
 from models import db, bcrypt, Booking, User, Tour
 from auth import auth_bp
 from tours import tours_bp
@@ -11,33 +11,24 @@ import os
 from flask_migrate import Migrate
 from datetime import datetime
 
-
 def get_user_id_from_email(email):
     user = User.query.filter_by(email=email).first()
     return user.id if user else None
-
 
 def calculate_total_price(tour_id, number_of_participants, start_date, end_date):
     tour = Tour.query.filter_by(id=tour_id).first()
     if not tour:
         return 0
-
     days = (end_date - start_date).days
     if days <= 0:
         return 0
-
     return tour.price * number_of_participants * days
-
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
     app.logger.info("Starting Flask application...")
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = app.config.get(
-        'SQLALCHEMY_DATABASE_URI', 'sqlite:///tour_company.db'
-    )
+    app.config['SQLALCHEMY_DATABASE_URI'] = app.config.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///tour_company.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
@@ -51,8 +42,11 @@ def create_app():
 
     @app.route('/')
     def home():
-        return "Hello, Flask is running!"
-        
+        return jsonify({
+            "message": "Welcome to the Tour Company Backend",
+            "status": "healthy",
+            "version": "1.0.0"
+        })
 
     @app.route('/api/bookings', methods=['POST'])
     def book_tour():
@@ -93,7 +87,7 @@ def create_app():
 
             new_booking = Booking(
                 user_id=user_id,
-                tour_type_id=tour_id,
+                tour_id=tour_id,
                 safari_start_date=safari_start_date,
                 safari_end_date=safari_end_date,
                 number_of_participants=number_of_participants,
@@ -122,11 +116,8 @@ def create_app():
 
     if not os.path.exists('logs'):
         os.mkdir('logs')
-
     file_handler = RotatingFileHandler('logs/tour_company.log', maxBytes=10240, backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-    ))
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
@@ -134,7 +125,7 @@ def create_app():
 
     return app
 
+app = create_app()
 
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True, host='0.0.0.0', port=5000)

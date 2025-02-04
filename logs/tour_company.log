@@ -31,3 +31,8 @@ WHERE bookings.user_id = ? AND bookings.tour_id = ?
 2025-02-03 20:50:49,749 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:136]
 2025-02-03 20:52:20,896 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:136]
 2025-02-03 20:52:29,818 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:136]
+2025-02-04 09:15:07,618 INFO: Tour Company Backend startup [in app.py:133]
+2025-02-04 09:15:08,223 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:133]
+2025-02-04 09:53:02,041 INFO: Tour Company Backend startup [in app.py:133]
+2025-02-04 09:53:02,630 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:133]
+2025-02-04 09:54:17,917 INFO: Tour Company Backend startup [in /home/nelly/tour company/backend/app.py:124]
